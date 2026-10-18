@@ -8,13 +8,13 @@ A responsive, premium charcoal-and-silver portfolio starter built with React, Ty
 - About, focus areas, selected work, approach, and recruiter-focused contact sections
 - Individual project case-study routes at `/projects/:slug`
 - Accessible mobile navigation, reduced-motion support, and polished hover states
-- Contact form API using Brevo SMTP/Nodemailer, shared by the local Express server and a Netlify Function
-- Netlify production configuration for React Router fallback, function routing, and request limits
+- Contact form API using Brevo SMTP/Nodemailer, shared by the local Express server and Vercel Functions
+- Vercel production configuration for React Router fallback and serverless API routes
 - SEO basics and editable portfolio content
 
 ## Requirements
 
-- Node.js 20+ recommended
+- Node.js 22.x (matches the Vercel function runtime)
 - npm
 - SMTP credentials to enable actual email delivery
 
@@ -66,13 +66,17 @@ In `src/pages/Home.tsx`, update the GitHub, LinkedIn, and email links only if th
 
 Edit the title, description, social sharing metadata, and domain in `index.html` when the deployment URL is known.
 
-## Deploy to Netlify with GitHub
+## Deploy to Vercel
 
-`netlify.toml` sets the build command to `npm run build`, publishes `dist`, packages `netlify/functions`, and configures a single-page-app fallback for React Router. The contact function handles `POST /api/contact` directly; `GET /api/health` reports service availability and whether the required settings are present. Local development continues to use the Express adapter on port `4174`, and both adapters share `server/contact-service.js`.
+The root-level `api/contact.js` and `api/health.js` files are Vercel Node.js Functions that reuse `server/contact-service.js`, the same mail service used by Express locally. `POST /api/contact` validates and sends the message; `GET /api/health` reports whether the mail configuration is present without returning values. `vercel.json` builds with `npm run build`, serves `dist`, and sends non-API routes to the Vite SPA entry point so React Router project pages work on direct visits and refreshes. API requests are excluded from that fallback.
 
-In the Netlify dashboard, connect the GitHub repository and select the production branch. Keep the site base directory at the repository root. Build, publish, and function-directory settings are read from `netlify.toml`.
+To create the Vercel project, import the portfolio's GitHub repository in Vercel, set the project root to the repository root, and use these build settings (also recorded in `vercel.json`):
 
-Add these variables under the Netlify project's environment variables, with **Functions/runtime** access enabled. Do not put secrets in `netlify.toml`, `vite.config.ts`, or any `VITE_*` variable:
+- Build command: `npm run build`
+- Output directory: `dist`
+- Framework preset: Vite (or Other if auto-detection does not select Vite)
+
+Add the following server-only environment variables in **Settings → Environment Variables**. Add them to each environment that should accept contact requests: **Development**, **Preview**, and **Production**. Do not use `VITE_` prefixes or put secrets in `vercel.json`:
 
 ```text
 SMTP_HOST=smtp-relay.brevo.com
@@ -84,9 +88,11 @@ CONTACT_TO=ebirone4@gmail.com
 CONTACT_FROM=<sender address verified in Brevo>
 ```
 
-After saving the variables, trigger a deploy. Once the GitHub repository is connected, pushes to the selected production branch trigger deployments. Send a real test through the live form and confirm that it arrives before treating email delivery as verified.
+For production abuse protection, create a Vercel Firewall rate-limit rule in the project's **Firewall** settings for request path `/api/contact`, keyed by source IP. A starting limit is 6 requests per 60 seconds with the default 429 action. Review and publish the rule. Vercel's Firewall provides the shared platform-level limit; the Express in-memory limiter applies only to the local server and is not a production distributed limiter.
 
-This workspace currently has no `.git` metadata or configured remote, so it must be attached to the intended GitHub repository before Netlify can connect to it.
+After configuring the environment variables and Firewall rule, deploy the project. Once GitHub is connected, pushes to the selected production branch trigger deployments. Test `GET https://<your-domain>/api/health`, then submit a real test through the deployed form and confirm it arrives before treating Brevo delivery as verified. No real email is sent by the automated tests.
+
+This workspace currently has no `.git` metadata or configured remote. Connect or import the intended GitHub repository in Vercel before enabling Git-based deployments.
 
 ## Local production check
 
@@ -97,7 +103,7 @@ npm start
 
 The Express server serves `dist` and `/api/contact` from one origin for a local production check. `GET /api/health` reports backend availability and configuration presence without exposing credentials. The Vite development server proxies `/api` to `http://127.0.0.1:4174`.
 
-Run `npm test` to test both contact adapters with an injected mock mail sender. Tests do not contact Brevo or send real email.
+Run `npm test` to test the Vercel handlers and local Express endpoint with an injected mock mail sender. Tests do not contact Brevo or send real email. For Vercel's local function runtime, install/use the Vercel CLI and run `vercel dev` after linking a local Vercel project; local `.env` values are used for development. The default `npm run dev` workflow remains Vite plus Express and is sufficient for normal portfolio work.
 
 ## Notes
 
