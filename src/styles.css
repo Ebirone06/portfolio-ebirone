@@ -31,10 +31,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
 .site-header { position: sticky; top: 0; z-index: 50; width: 100%; background: rgba(16, 17, 18, .76); border-bottom: 1px solid rgba(255,255,255,.06); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); }
 .nav-shell { height: 76px; max-width: 1240px; margin: 0 auto; padding: 0 40px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
-.brand { display: inline-flex; align-items: center; gap: 12px; flex-shrink: 0; }
-.brand-mark { width: 35px; height: 35px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,.22); border-radius: 11px; font-size: 12.60px; font-weight: 800; letter-spacing: -.5px; background: linear-gradient(145deg, #282a2b, #111); box-shadow: inset 0 1px 0 rgba(255,255,255,.09); }
-.brand-mark span, .footer-brand span { color: #bfc2c3; }
-.brand-name { font-size: 15.12px; font-weight: 700; letter-spacing: -.2px; color: #e9e9e8; }
+.brand { display: inline-flex; align-items: center; min-height: 44px; flex-shrink: 0; }
+.brand-name { color: #e9e9e8; font-size: 16px; font-weight: 650; letter-spacing: -.35px; line-height: 1.2; white-space: nowrap; }
+.footer-brand span { color: #bfc2c3; }
 .nav-links { display: flex; align-items: center; gap: 34px; margin-left: auto; }
 .nav-link { font-size: 15.12px; color: #a7a9aa; transition: color .2s ease; }
 .nav-link:hover { color: #fff; }
@@ -163,7 +162,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .kings-mat-hero { gap: 31px; }.kings-case-section { gap: 38px; }
 }
 @media (max-width: 760px) {
-  html { scroll-padding-top: 72px; }.nav-shell { height: 68px; padding: 0 22px; }.brand-name { font-size: 13.86px; }.nav-cta { display: none; }.menu-toggle { display: grid; place-items: center; width: 39px; height: 39px; border: 1px solid var(--line); border-radius: 9px; color: #eee; background: #1a1c1d; cursor: pointer; }.nav-links { position: absolute; top: 67px; left: 0; right: 0; display: none; flex-direction: column; align-items: stretch; gap: 0; margin: 0; padding: 10px 22px 18px; background: rgba(16,17,18,.97); border-bottom: 1px solid var(--line); backdrop-filter: blur(20px); }.nav-links-open { display: flex; }.nav-link { padding: 15px 2px; border-bottom: 1px solid rgba(255,255,255,.06); font-size: 16.38px; }.nav-mobile-cta { display: flex; align-self: flex-start; margin-top: 15px; }
+  html { scroll-padding-top: 72px; }.nav-shell { height: 68px; padding: 0 22px; }.nav-cta { display: none; }.menu-toggle { display: grid; place-items: center; width: 39px; height: 39px; border: 1px solid var(--line); border-radius: 9px; color: #eee; background: #1a1c1d; cursor: pointer; }.nav-links { position: absolute; top: 67px; left: 0; right: 0; display: none; flex-direction: column; align-items: stretch; gap: 0; margin: 0; padding: 10px 22px 18px; background: rgba(16,17,18,.97); border-bottom: 1px solid var(--line); backdrop-filter: blur(20px); }.nav-links-open { display: flex; }.nav-link { padding: 15px 2px; border-bottom: 1px solid rgba(255,255,255,.06); font-size: 16.38px; }.nav-mobile-cta { display: flex; align-self: flex-start; margin-top: 15px; }
   .section-wrap, .site-footer { width: min(100% - 40px, 560px); }
   .hero { display: flex; flex-direction: column; align-items: stretch; gap: 42px; min-height: auto; padding-top: 69px; padding-bottom: 105px; }.hero-content { padding: 0; }.hero h1 { margin-top: 27px; font-size: clamp(55.44px, 13.86vw, 90.72px); line-height: 1.1; }.hero-name { white-space: normal; }.hero-role { font-size: 15.12px; flex-wrap: wrap; }.hero-summary { font-size: 16.38px; }.hero-actions { gap: 20px; margin-top: 26px; }.hero-footnote { margin-top: 32px; }.hero-visual { min-height: 400px; }.orb { width: clamp(180px, 47vw, 240px); }.visual-orb-wrap { inset: 52px -15px 50px; }.scroll-cue { bottom: 31px; left: 0; }.hero-index { bottom: 31px; }
   .about-section { padding-top: 85px; padding-bottom: 88px; }.section-heading h2, .contact-header h2 { font-size: clamp(45.36px, 10.96vw, 60.48px); }.about-grid { grid-template-columns: 1fr; gap: 43px; margin-top: 39px; }.about-intro p { max-width: 100%; }.focus-item { grid-template-columns: 24px 36px 1fr 16px; gap: 11px; min-height: 105px; }.focus-copy p { font-size: 12.60px; }
